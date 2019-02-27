@@ -8,6 +8,7 @@
 html,
 body {
   height: 100%;
+
 }
 
 body {
@@ -17,6 +18,7 @@ body {
   align-items: center;
   padding-top: 40px;
   padding-bottom: 40px;
+  position: relative;
 }
 
 .block{
@@ -420,7 +422,8 @@ input:focus{
 
 .chat-container {
   position: fixed;
-  bottom: 0;
+  bottom: -20px;
+  left: 10px;
 }
 
 .hide {

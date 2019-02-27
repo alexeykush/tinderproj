@@ -19,13 +19,14 @@ public class DaoUsersSql implements Dao<User> {
     public User getUserToShow(int activeUserId) {
         User result = null;
 
-        String sql = "SELECT * FROM tinderam_users WHERE id NOT IN (\n" +
-                "    SELECT checked FROM tinderam_checked WHERE checked = id\n" +
-                ") AND id != ? LIMIT 1";
+        String sql = "SELECT * FROM tinderam_users WHERE id != ? AND id NOT IN (\n" +
+                "    SELECT checked FROM tinderam_checked WHERE checked = id AND userId = ? \n" +
+                ") LIMIT 1";
 
         try {
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setInt(1, activeUserId);
+            stm.setInt(2, activeUserId);
             ResultSet rSet = stm.executeQuery();
 
             if (rSet.next()) {

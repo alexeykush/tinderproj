@@ -7,7 +7,7 @@
     <meta name="author" content="">
     <link rel="icon" href="img/favicon.ico">
 
-    <title>Signin Template for Bootstrap</title>
+    <title>Sign in</title>
 
     <#include "css/bootstrap.min.css">
     <#include "css/style.css">

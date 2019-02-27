@@ -26,7 +26,6 @@ public class MessagesServlet extends HttpServlet {
         int userId = Integer.parseInt(cookiesService.getCookie().getValue());
         ParameterFromRequest pfr = new ParameterFromRequest(req);
         int counterpartId = pfr.getInt("user");
-
         MessagesService messagesService = new MessagesService(userId, counterpartId, connection, req, resp);
         messagesService.generateLikedPage();
     }

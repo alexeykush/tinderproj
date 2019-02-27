@@ -7,7 +7,7 @@
     <meta name="author" content="">
     <link rel="icon" href="img/favicon.ico">
 
-    <title>People list</title>
+    <title>Liked list</title>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
           integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
     <!-- Bootstrap core CSS -->
@@ -78,7 +78,7 @@
                     </div>
                         <#--cross-->
                     <div class="col-md-6 options text-right pr-0">
-                        <i onclick="document.getElementById('1').classList.toggle('hide');
+                        <i id="cross" onclick="document.getElementById('1').classList.toggle('hide');
 " class="fa fa-times hover text-center pt-1"></i>
                     </div>
                 </div>
@@ -129,7 +129,7 @@
                         <form action="/message" method="post" class="col-md-11 pl-0">
                             <input name="text" style="width: 80%;" type="text" class="border-0" placeholder=" Send message"/>
                             <input name="user" type="hidden" value="${counterpart.id}">
-                            <button style="cursor: pointer; position: absolute; right: 10px; top: 0; " type="submit">Send</button>
+                            <button id="send" style="cursor: pointer; position: absolute; right: 10px; top: 0; " type="submit">Send</button>
                         </form>
                     </div>
                 </div>
@@ -137,7 +137,7 @@
         </div>
     </div>
 </div>
+<script src="js/messages.js"></script>
 </#if>
-
 </body>
 </html>
