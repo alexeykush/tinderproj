@@ -1,9 +1,7 @@
 package servlets;
 
-import dao.DaoUsersSql;
 import dto.User;
-import services.CookiesService;
-import services.UsersService;
+import services.EmailService;
 import utils.Freemarker;
 import utils.ParameterFromRequest;
 
@@ -12,27 +10,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class RegistrationServlet extends HttpServlet {
-    private CookiesService cookiesService;
     private final Freemarker f = new Freemarker();
-    private UsersService usersService;
-    private final Connection connection;
+    private EmailService emailService;
 
-    public RegistrationServlet(Connection connection) {
-        this.connection = connection;
-        this.usersService = new UsersService(new DaoUsersSql(connection));
+    public RegistrationServlet(EmailService emailService) {
+        this.emailService = emailService;
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
         HashMap<String, Object> data = new HashMap<>();
-
         List<String> fields = new ArrayList<>();
 
         fields.add("Name");
@@ -43,7 +35,6 @@ public class RegistrationServlet extends HttpServlet {
         data.put("fields", fields);
         data.put("message", "Please sign up");
         data.put("rout", "/reg");
-
         f.render("form.ftl", data, resp);
 
     }
@@ -52,7 +43,6 @@ public class RegistrationServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         ParameterFromRequest pfr = new ParameterFromRequest(req);
 
-        cookiesService = new CookiesService(req,resp);
         String name = pfr.getStr("Name");
         String surname = pfr.getStr("Surname");
         String image = pfr.getStr("Image");
@@ -60,10 +50,10 @@ public class RegistrationServlet extends HttpServlet {
         String password = pfr.getStr("Password");
 
         User user = new User(login,password,name,surname,image);
-        usersService.add(user);
-
-        cookiesService.addCookie(usersService.getUserId(user));
-
-        resp.sendRedirect("/users");
+        emailService.sendEmail(user);
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("message","Check your email to confirm registration");
+        data.put("rout","/reg");
+        f.render("msg.ftl", data, resp);
     }
 }

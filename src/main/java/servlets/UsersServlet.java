@@ -52,10 +52,10 @@ public class UsersServlet extends HttpServlet {
 
         ParameterFromRequest pfr = new ParameterFromRequest(req);
         Like like = new Like(pfr.getInt("userId"));
-        if (req.getParameter("like") != null) {
+        if (req.getParameter("action").equals("like")) {
             likesService.addLike(like);
             likesService.addCheckedStatus(pfr.getInt("userId"));
-        } else if (req.getParameter("dislike") != null) {
+        } else if (req.getParameter("action").equals("dislike")) {
             likesService.removeLike(like);
             likesService.addCheckedStatus(pfr.getInt("userId"));
         }

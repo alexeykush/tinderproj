@@ -129,7 +129,7 @@
                         <form action="/message" method="post" class="col-md-11 pl-0">
                             <input name="text" style="width: 80%;" type="text" class="border-0" placeholder=" Send message"/>
                             <input name="user" type="hidden" value="${counterpart.id}">
-                            <button id="send" style="cursor: pointer; position: absolute; right: 10px; top: 0; " type="submit">Send</button>
+                            <button id="send" style="cursor: pointer; position: absolute; right: 10px; top: 0; " type="submit">Send/Update</button>
                         </form>
                     </div>
                 </div>

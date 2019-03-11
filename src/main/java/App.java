@@ -1,4 +1,5 @@
 import db.DbConnection;
+import dto.User;
 import org.eclipse.jetty.server.Handler;
 import filters.LoginFilter;
 import filters.LoginStatusFilter;
@@ -6,11 +7,12 @@ import filters.RegistrationFilter;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.ContextHandler;
 import org.eclipse.jetty.server.handler.HandlerCollection;
-import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import services.EmailService;
 import servlets.*;
+import storage.Storage;
 import utils.ResourceHandlerGenerator;
 
 import java.sql.Connection;
@@ -23,6 +25,8 @@ public class App {
     public static void main(String[] args) throws Exception {
 
         Connection connection = new DbConnection().connection();
+        Storage storage = new Storage();
+        EmailService emailService = new EmailService(storage);
 
         String webPort = System.getenv("PORT");
 
@@ -37,12 +41,12 @@ public class App {
         ContextHandler jsHandler = rhg.generateResourceHandler("src/main/resources/templates/js", "/js");
 
         handler.addServlet(new ServletHolder(new MainServlet()),"/");
-        handler.addServlet(new ServletHolder(new LoginServlet(connection)),"/login");
         handler.addServlet(new ServletHolder(new LikesServlet(connection)), "/liked");
         handler.addServlet(new ServletHolder(new MessagesServlet(connection)), "/message");
 
         handler.addServlet(new ServletHolder(new LoginServlet(connection)),"/login/*");
-        handler.addServlet(new ServletHolder(new RegistrationServlet(connection)),"/reg/*");
+        handler.addServlet(new ServletHolder(new RegistrationServlet(emailService)),"/reg/*");
+        handler.addServlet(new ServletHolder(new VerificationServlet(connection,storage)), "/verification/*");
         handler.addServlet(new ServletHolder(new UsersServlet(connection)),"/users/*");
         handler.addServlet(new ServletHolder(new LogoutServlet()),"/logout/*");
 

@@ -55,7 +55,7 @@ public class LoginFilter  implements Filter {
             } catch (Exception e) {
                 data.put("message", e.getMessage());
                 data.put("rout","/login");
-                f.render("fail.ftl", data,(HttpServletResponse) response);
+                f.render("msg.ftl", data,(HttpServletResponse) response);
             }
         } else {
             chain.doFilter(request, response);
